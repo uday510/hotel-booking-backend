@@ -1,6 +1,6 @@
 /**
  * Validate the email format.
- * 
+ *
  * @param {string} email - The email address to validate.
  * @returns {Array|null} - An array containing the matched parts of the email or null if not valid.
  */
@@ -14,11 +14,26 @@ exports.validateEmail = (email) => {
 
 /**
  * Validate the password format.
- * 
+ *
  * @param {string} password - The password to validate.
  * @returns {boolean} - True if the password is valid, false otherwise.
  */
 exports.validatePassword = (password) => {
   const re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
   return re.test(password);
+};
+
+/**
+ * Time duration for token expiration in seconds.
+ * @constant {number}
+ */
+exports.TOKEN_EXPIRATION_TIME_SECONDS = 600;
+
+/**
+ * Enum representing different user types.
+ * @enum {string}
+ */
+exports.UserType = {
+  ADMIN: 'admin',
+  USER: 'user',
 };

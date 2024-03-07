@@ -2,29 +2,63 @@ const Booking = require('../models/booking.model.js');
 const Hotel = require('../models/hotel.model.js');
 const User = require('../models/user.model.js');
 
+/**
+ * Controller for booking a hotel.
+ *
+ * @param {*} req - Express request object.
+ * @param {*} res - Express response object.
+ */
 exports.bookHotel = async (req, res) => {
+  /**
+   * Object to store booking information before saving to the database.
+   *
+   * @typedef {Object} BookingObject
+   * @property {string} hotelId - ID of the hotel being booked.
+   * @property {string} userId - ID of the user making the booking.
+   * @property {string} date - Date for the booking.
+   */
+
+  /**
+   * Information to be stored in the database for booking.
+   *
+   * @type {BookingObject}
+   */
   const bookingObjToBeStoredInDB = {
     date: req.body.date,
   };
 
+  // Check if the data is valid
+  if (new Date(req.body.date) < Date.now()) {
+    return res.status(400).send({
+      success: false,
+      message: "Invalid booking date. Please provide a future date.",
+      statusCode: 400,
+    });
+  }
+
+
   try {
-    // get hotel by id
+    // Retrieve hotel information based on hotelId from the request body
     const hotel = await Hotel.findOne({
       hotelId: req.body.hotelId,
     });
-    // get user by id
+
+    // Retrieve user information based on userId from the request
     const user = await User.findOne({
       userId: req.userId,
     });
 
+    // Check if there is an existing booking for the specified hotel and date
     const existingBooking = await Booking.findOne({
       hotelId: hotel._id,
       date: req.body.date,
     });
 
+    // Set hotelId and userId in the bookingObjToBeStoredInDB
     bookingObjToBeStoredInDB.hotelId = hotel._id;
     bookingObjToBeStoredInDB.userId = user._id;
 
+    // If there's an existing booking, return a conflict response
     if (existingBooking) {
       return res.status(400).send({
         success: false,
@@ -32,7 +66,11 @@ exports.bookHotel = async (req, res) => {
         statusCode: 400,
       });
     }
+
+    // Create a new booking in the database
     const data = await Booking.create(bookingObjToBeStoredInDB);
+
+    // Send success response with booking information
     res.status(201).send({
       success: true,
       data: data,
@@ -40,6 +78,7 @@ exports.bookHotel = async (req, res) => {
       statusCode: 201,
     });
   } catch (err) {
+    // Handle errors during the booking process
     res.status(500).send({
       success: false,
       message: err.message || "Some error occurred while booking the Hotel.",

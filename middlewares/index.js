@@ -6,5 +6,4 @@ module.exports = {
   authUser,
   hotelMiddleware,
   bookingMiddleware
-}
-
+};

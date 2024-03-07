@@ -1,5 +1,22 @@
+import { UserType } from "../utils/util";
 const mongoose = require('mongoose');
+/**
+ * @typedef {Object} UserSchema
+ * @property {string} name - User's name.
+ * @property {string} email - User's email (must be unique).
+ * @property {string} password - User's hashed password.
+ * @property {('user' | 'admin')} type - User type, either 'user' or 'admin'.
+ * @property {string} userId - Unique identifier for the user (must be unique).
+ * @property {mongoose.Schema.Types.ObjectId[]} hotels - Array of Hotel references.
+ * @property {Date} createdAt - Date when the user was created.
+ * @property {Date} updatedAt - Date when the user was last updated.
+ */
 
+/**
+ * Mongoose schema for the User model.
+ *
+ * @type {mongoose.Schema<UserSchema>}
+ */
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -16,8 +33,8 @@ const userSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['user', 'admin'],
-    default: 'user'
+    enum: [UserType.USER, UserType.ADMIN],
+    default: UserType.USER
   },
   userId: {
     type: String,
@@ -39,4 +56,15 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('User', userSchema);
+/**
+ * Mongoose model for the User schema.
+ *
+ * @typedef {import('mongoose').Model<UserSchema, {}, {}>} UserModel
+ */
+
+/**
+ * @type {UserModel}
+ */
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;

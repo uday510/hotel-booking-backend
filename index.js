@@ -7,7 +7,6 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const dbConfig = require('./configs/db.config.js');
 const serverConfig = require('./configs/server.config.js');
-const routes = require('./routes/index.js'); // Import routes module
 
 const app = express();
 
@@ -42,15 +41,6 @@ mongoose
     console.log(`Server is running on ${serverConfig.PORT}`);
   })
   .catch((err) => {
-    throw err;
+    console.error("Database connection error:", err);
+    process.exit(1); // Exit the application with an error code
   });
-
-
-// Initialize the Express server
-/**
- * Start the Express server.
- * @param {number} PORT - The port on which the server will listen.
- */
-// module.exports = app.listen(serverConfig.PORT, () => {
-//   console.log(`Server is running on port ${serverConfig.PORT}.`);
-// });

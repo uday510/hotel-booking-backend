@@ -1,4 +1,5 @@
 // Import necessary modules
+import { TOKEN_EXPIRATION_TIME_SECONDS } from '../utils/util';
 const bcrypt = require("bcryptjs");
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
@@ -80,10 +81,7 @@ exports.signin = async (req, res) => {
     }
 
     // Generate JWT token
-    // const token = generateToken(user.userId);
-    const token = jwt.sign({ id: user.userId }, config.secret, {
-      expiresIn: 600, // Expires 10 Minutes
-    });
+    const token = generateToken(user.userId);
 
     // Send success response with token
     res.status(200).send({
@@ -118,6 +116,6 @@ exports.signin = async (req, res) => {
  */
 function generateToken(userId) {
   return jwt.sign({ id: userId }, config.secret, {
-    expiresIn: 600, // Expires 10 Minutes
+    expiresIn: TOKEN_EXPIRATION_TIME_SECONDS
   });
 }
