@@ -6,8 +6,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const dbConfig = require('./configs/db.config.js');
-const serverConfig = require('./configs/server.config');
-const routes = require('./routes'); // Import routes module
+const serverConfig = require('./configs/server.config.js');
+const routes = require('./routes/index.js'); // Import routes module
 
 const app = express();
 
@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
 });
 
 // Initialize routes
-require("./routes")(app);
+require("./routes/index.js")(app);
 
 // Connect to MongoDB
 try {
