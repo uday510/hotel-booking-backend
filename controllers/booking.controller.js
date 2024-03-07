@@ -23,12 +23,14 @@ exports.bookHotel = async (req, res) => {
    *
    * @type {BookingObject}
    */
-  const bookingObjToBeStoredInDB = {
-    date: req.body.date,
-  };
 
   // Check if the data is valid
-  if (new Date(req.body.date) < Date.now()) {
+  const dateParts = req.body.date.split("-");
+  const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+  const bookingDate = new Date(formattedDate);
+
+  // Check if the date is valid
+  if (isNaN(bookingDate) || bookingDate < Date.now()) {
     return res.status(400).send({
       success: false,
       message: "Invalid booking date. Please provide a future date.",
@@ -36,6 +38,9 @@ exports.bookHotel = async (req, res) => {
     });
   }
 
+  const bookingObjToBeStoredInDB = {
+    date: bookingDate,
+  };
 
   try {
     // Retrieve hotel information based on hotelId from the request body
@@ -51,7 +56,7 @@ exports.bookHotel = async (req, res) => {
     // Check if there is an existing booking for the specified hotel and date
     const existingBooking = await Booking.findOne({
       hotelId: hotel._id,
-      date: req.body.date,
+      date: bookingDate,
     });
 
     // Set hotelId and userId in the bookingObjToBeStoredInDB
@@ -70,9 +75,7 @@ exports.bookHotel = async (req, res) => {
     // Create a new booking in the database
     const data = await Booking.create(bookingObjToBeStoredInDB);
 
-
     // Store the booking ID in the user document
-
     user.bookings.push(data._id);
     await user.save();
 
