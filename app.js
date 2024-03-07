@@ -24,6 +24,10 @@ function requestTime(req, res, next) {
 
 app.use(requestTime);
 
+app.get("/", (req, res) => {
+  res.send("Server Health: OK!");
+});
+
 // Initialize routes
 require("./routes")(app);
 
