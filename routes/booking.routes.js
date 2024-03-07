@@ -10,7 +10,7 @@ module.exports = (app) => {
   /**
    * Endpoint to book a hotel.
    *
-   * @name POST /api/v1/bookings/
+   * @name POST /v1/bookings/
    * @function
    * @memberof module:Routes~bookingRoutes
    * @inner
@@ -18,5 +18,5 @@ module.exports = (app) => {
    * @param {function[]} middleware - Array of middleware functions.
    * @param {function} controller - Controller function to handle the request.
    */
-  app.post("/api/v1/bookings/", [authUser.verifyToken, bookingMiddleware.validateBookingRequest], bookingController.bookHotel);
+  app.post("/v1/bookings", [authUser.verifyToken, bookingMiddleware.validateBookingRequest], bookingController.bookHotel);
 }
