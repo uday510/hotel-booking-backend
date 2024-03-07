@@ -48,6 +48,6 @@ try {
  * Start the Express server.
  * @param {number} PORT - The port on which the server will listen.
  */
-module.exports = app.listen(4000, () => {
+module.exports = app.listen(serverConfig.PORT, () => {
   console.log(`Server is running on port ${serverConfig.PORT}.`);
 });
