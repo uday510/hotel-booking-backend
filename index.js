@@ -31,24 +31,26 @@ app.get("/", (req, res) => {
 // Initialize routes
 require("./routes/index.js")(app);
 
-// Connect to MongoDB
-try {
-  mongoose.connect(dbConfig.DB_URL);
-  console.log(`Connecting to Database Server...`)
-  mongoose.connection.once('open', () => {
-    console.log('Connected to MongoDB');
+// Connect to the Database
+mongoose
+  .connect(dbConfig.DB_URL, {
+    useNewUrlParser: true, // To avoid Deprecation Warning
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    app.listen(4000);
+    console.log(`Server is running on ${serverConfig.PORT}`);
+  })
+  .catch((err) => {
+    throw err;
   });
-} catch (err) {
-  // Handle database connection error
-  console.error('Database connection error', err);
-  process.exit(1); // Exit the process with an error code
-}
+
 
 // Initialize the Express server
 /**
  * Start the Express server.
  * @param {number} PORT - The port on which the server will listen.
  */
-module.exports = app.listen(serverConfig.PORT, () => {
-  console.log(`Server is running on port ${serverConfig.PORT}.`);
-});
+// module.exports = app.listen(serverConfig.PORT, () => {
+//   console.log(`Server is running on port ${serverConfig.PORT}.`);
+// });
