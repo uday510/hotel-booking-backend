@@ -14,9 +14,28 @@ module.exports = (app) => {
    * @function
    * @memberof module:Routes~bookingRoutes
    * @inner
-   * @param {string} path - Express route path.
-   * @param {function[]} middleware - Array of middleware functions.
-   * @param {function} controller - Controller function to handle the request.
+   * 
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @param {function} next - Express next middleware function.
+   * 
+   * @returns {void}
    */
   app.post("/v1/bookings", [authUser.verifyToken, bookingMiddleware.validateBookingRequest], bookingController.bookHotel);
-}
+
+  /**
+   * Endpoint to get bookings for a user.
+   *
+   * @name GET /v1/bookings
+   * @function
+   * @memberof module:Routes~bookingRoutes
+   * @inner
+   * 
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @param {function} next - Express next middleware function.
+   * 
+   * @returns {void}
+   */
+  app.get("/v1/bookings", [authUser.verifyToken], bookingController.getBookingsByUser);
+};

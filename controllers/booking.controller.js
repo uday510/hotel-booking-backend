@@ -70,6 +70,12 @@ exports.bookHotel = async (req, res) => {
     // Create a new booking in the database
     const data = await Booking.create(bookingObjToBeStoredInDB);
 
+
+    // Store the booking ID in the user document
+
+    user.bookings.push(data._id);
+    await user.save();
+
     // Send success response with booking information
     res.status(201).send({
       success: true,
@@ -86,3 +92,41 @@ exports.bookHotel = async (req, res) => {
     });
   }
 }
+
+/**
+ * Controller to get all bookings of a user.
+ *
+ * @param {*} req - Express request object.
+ * @param {*} res - Express response object.
+ */
+exports.getBookingsByUser = async (req, res) => {
+  try {
+    // Find the user by userId
+    const user = await User.findOne({ userId: req.userId }).populate('bookings');
+
+    // Check if the user is not found
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: "User not found.",
+        statusCode: 404,
+      });
+    }
+
+    // Extract bookings from the user object
+    const userBookings = user.bookings;
+
+    res.status(200).send({
+      success: true,
+      data: userBookings,
+      message: "User bookings retrieved successfully.",
+      statusCode: 200,
+    });
+  } catch (err) {
+    res.status(500).send({
+      success: false,
+      message: err.message || "Some error occurred while retrieving user bookings.",
+      statusCode: 500,
+    });
+  }
+};

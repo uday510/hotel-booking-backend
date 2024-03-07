@@ -41,9 +41,9 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  hotels: {
+  bookings: {
     type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Hotel',
+    ref: 'Booking',
     default: []
   },
   createdAt: {

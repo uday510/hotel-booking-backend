@@ -1,4 +1,4 @@
-const { TOKEN_EXPIRATION_TIME_SECONDS } = require('../utils/util');
+const { TOKEN_EXPIRATION_TIME_SECONDS, UserType } = require('../utils/util');
 const bcrypt = require("bcryptjs");
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
@@ -17,7 +17,7 @@ exports.signup = async (req, res) => {
     userId: req.body.userId,
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8),
-    type: req.body.type || "user",
+    type: req.body.type || UserType.USER
   };
 
   try {
@@ -28,6 +28,7 @@ exports.signup = async (req, res) => {
       userId: userCreated.userId,
       email: userCreated.email,
       type: userCreated.type,
+      bookings: userCreated.bookings
     };
 
     // Send success response
