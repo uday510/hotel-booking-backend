@@ -1,6 +1,3 @@
-// Clear console to enhance visibility
-console.clear();
-
 // Import necessary modules
 const express = require('express');
 const mongoose = require('mongoose');
@@ -32,10 +29,7 @@ require("./routes/index.js")(app);
 
 // Connect to the Database
 mongoose
-  .connect(dbConfig.DB_URL, {
-    useNewUrlParser: true, // To avoid Deprecation Warning
-    useUnifiedTopology: true,
-  })
+  .connect(dbConfig.DB_URL)
   .then(() => {
     app.listen(4000);
     console.log(`Server is running on ${serverConfig.PORT}`);

@@ -1,5 +1,4 @@
-// Import necessary modules
-import { TOKEN_EXPIRATION_TIME_SECONDS } from '../utils/util';
+const { TOKEN_EXPIRATION_TIME_SECONDS } = require('../utils/util');
 const bcrypt = require("bcryptjs");
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");

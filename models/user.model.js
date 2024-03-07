@@ -1,4 +1,4 @@
-import { UserType } from "../utils/util";
+const { UserType } = require("../utils/util");
 const mongoose = require('mongoose');
 /**
  * @typedef {Object} UserSchema
