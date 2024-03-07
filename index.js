@@ -34,6 +34,7 @@ require("./routes/index.js")(app);
 // Connect to MongoDB
 try {
   mongoose.connect(dbConfig.DB_URL);
+  console.log(`Connecting to Database Server...`)
   mongoose.connection.once('open', () => {
     console.log('Connected to MongoDB');
   });
