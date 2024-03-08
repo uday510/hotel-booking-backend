@@ -26,19 +26,17 @@ app.get("/", (req, res) => {
 // Initialize routes
 require("./routes/index.js")(app);
 
-// Connect to the Database
-mongoose
-  .connect(dbConfig.DB_URL)
-  .then(() => {
-    // Allow dynamic port assignment for testing
-    const port = process.env.PORT || serverConfig.PORT;
-    const server = app.listen(port);
-    return server;
-  })
-  .catch((err) => {
-    console.error("Database connection error:", err);
-    process.exit(1); // Exit the application with an error code
-  });
 
-// Export the app instance
-module.exports = app;
+// Connect to the database
+mongoose.connect(dbConfig.DB_URL);
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', function () {
+  console.log("Connected to the database");
+});
+
+
+// Start the server
+module.exports = app.listen(serverConfig.PORT, () => {
+  console.log(`Server is running on port ${serverConfig.PORT}`);
+});

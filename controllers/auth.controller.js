@@ -4,12 +4,13 @@ const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const config = require("../configs/auth.config");
 
-/**
+/** 
  * Controller for user signup.
  * 
  * @param {*} req - Express request object.
  * @param {*} res - Express response object.
  */
+
 exports.signup = async (req, res) => {
   // Create a user object with hashed password
   const userObj = {
@@ -19,6 +20,9 @@ exports.signup = async (req, res) => {
     password: bcrypt.hashSync(req.body.password, 8),
     type: req.body.type || UserType.USER
   };
+
+  console.log('auth.controller.js', req.body);
+
 
   try {
     // Create a new user in the database
@@ -31,6 +35,12 @@ exports.signup = async (req, res) => {
       bookings: userCreated.bookings
     };
 
+    console.log({
+      statusCode: 201,
+      data: userCreationResponse,
+      message: "User created successfully",
+      success: true,
+    })
     // Send success response
     res.status(201).send({
       statusCode: 201,
@@ -77,6 +87,7 @@ exports.signin = async (req, res) => {
       return res.status(401).send({
         statusCode: 401,
         message: "Invalid Password",
+        success: false
       });
     }
 
