@@ -21,8 +21,6 @@ exports.signup = async (req, res) => {
     type: req.body.type || UserType.USER
   };
 
-  console.log('auth.controller.js', req.body);
-
 
   try {
     // Create a new user in the database
@@ -35,12 +33,6 @@ exports.signup = async (req, res) => {
       bookings: userCreated.bookings
     };
 
-    console.log({
-      statusCode: 201,
-      data: userCreationResponse,
-      message: "User created successfully",
-      success: true,
-    })
     // Send success response
     res.status(201).send({
       statusCode: 201,
