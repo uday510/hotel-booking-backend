@@ -9,11 +9,22 @@ const bcrypt = require('bcryptjs');
  */
 beforeAll(async () => await dbHandler.connect());
 
+
 /**
  * Close the database connection after running all the tests.
  */
 afterAll(async () => await dbHandler.closeDatabase());
 
+/**
+ * Test payload for a user.
+ * @type {{
+ *   email: string,
+ *   userId: string,
+ *   name: string,
+ *   type: string,
+ *   password: string
+ * }}
+ */
 const testPayload = {
   email: "uday510@icloud.com",
   userId: "uday10",

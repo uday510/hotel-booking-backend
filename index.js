@@ -28,12 +28,14 @@ require("./routes/index.js")(app);
 
 
 // Connect to the database
-mongoose.connect(dbConfig.DB_URL);
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once('open', function () {
-  console.log("Connected to the database");
-});
+mongoose.connect(dbConfig.DB_URL)
+  .then(() => {
+    console.log("Connected to the database!");
+  })
+  .catch(err => {
+    console.log("Cannot connect to the database!", err);
+    process.exit(1);
+  });
 
 
 // Start the server
