@@ -26,6 +26,15 @@ validateHotelCreateRequest = async (req, res, next) => {
     });
   }
 
+  // check if price is provided and is a number
+  if (!req.body.price || typeof req.body.price !== 'number') {
+    return res.status(400).send({
+      message: "Failed! Price is invalid or not provided",
+      statusCode: 400,
+      success: false,
+    });
+  }
+
   // Check if location is provided and is a non-empty string
   if (!req.body.location || typeof req.body.location !== 'string' || req.body.location.trim() === '') {
     return res.status(400).send({

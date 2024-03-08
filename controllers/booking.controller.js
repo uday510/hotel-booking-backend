@@ -48,6 +48,16 @@ exports.bookHotel = async (req, res) => {
       hotelId: req.body.hotelId,
     });
 
+    // Check if the hotel is not found
+    if (!hotel) {
+      return res.status(404).send({
+        success: false,
+        message: "Hotel not found.",
+        statusCode: 404,
+      });
+
+    }
+
     // Retrieve user information based on userId from the request
     const user = await User.findOne({
       userId: req.userId,
@@ -79,10 +89,18 @@ exports.bookHotel = async (req, res) => {
     user.bookings.push(data._id);
     await user.save();
 
+    data.userId = user.userId;
+    data.hotelId = hotel.hotelId;
+    console.log(user.userId);
     // Send success response with booking information
     res.status(201).send({
       success: true,
-      data: data,
+      data: {
+        hotelName: hotel.name,
+        price: hotel.price,
+        location: hotel.location,
+        checkIn: req.body.date,
+      },
       message: "Hotel booked successfully.",
       statusCode: 201,
     });
@@ -105,7 +123,7 @@ exports.bookHotel = async (req, res) => {
 exports.getBookingsByUser = async (req, res) => {
   try {
     // Find the user by userId
-    const user = await User.findOne({ userId: req.userId }).populate('bookings');
+    const user = await User.findOne({ userId: req.userId });
 
     // Check if the user is not found
     if (!user) {
@@ -119,9 +137,22 @@ exports.getBookingsByUser = async (req, res) => {
     // Extract bookings from the user object
     const userBookings = user.bookings;
 
+    const data = [];
+
+    for (let i = 0; i < userBookings.length; i++) {
+      const hotel = await Hotel.findById(userBookings[i].hotelId);
+      data.push({
+        hotelName: hotel.name,
+        price: hotel.price,
+        location: hotel.location,
+        checkIn: userBookings[i].date,
+      });
+    }
+    
+    // Send success response with user bookings
     res.status(200).send({
       success: true,
-      data: userBookings,
+      data: data,
       message: "User bookings retrieved successfully.",
       statusCode: 200,
     });
@@ -133,3 +164,4 @@ exports.getBookingsByUser = async (req, res) => {
     });
   }
 };
+
