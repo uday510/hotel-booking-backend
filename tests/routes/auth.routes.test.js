@@ -14,7 +14,6 @@ beforeAll(async () => {
  */
 afterAll(async () => {
   await dbHandler.closeDatabase();
-  app.close();
 });
 
 const API_URL = '/v1/auth';
@@ -45,8 +44,20 @@ describe('POST /signup', () => {
 
 
     // Assertions
-    expect(response.status).toEqual(201); // Use toEqual instead of toHaveBeenCalledWith
+    expect(response.status).toEqual(201);
     expect(response.body).toHaveProperty('message');
     expect(response.body.message).toBe('User created successfully');
+  });
+});
+
+
+describe('POST /login', () => {
+  it('Should login the user', async () => {
+    const response = await request(app)
+      .post(API_URL + '/login')
+      .send({ email: testPayload.email, password: testPayload.password });
+
+    // Assertions
+    expect(response.status).toEqual(200);
   });
 });
