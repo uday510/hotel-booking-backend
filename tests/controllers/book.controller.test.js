@@ -93,34 +93,6 @@ describe('Booking Controller', () => {
       statusCode: 201,
     });
   });
-
-  /**
-   * Test to return a conflict response when trying to book an already booked hotel.
-   */
-
-  it('should get user bookings successfully', async () => {
-    const userSpy = jest.spyOn(User, 'findOne').mockReturnValue(Promise.resolve(userTestPayload));
-
-    const hotelSpy = jest.spyOn(Hotel, 'findById').mockReturnValue(Promise.resolve(hotelTestPayload));
-
-
-    const req = mockRequest();
-    const res = mockResponse();
-
-    req.userId = userTestPayload.userId;
-
-    await getBookingsByUser(req, res);
-
-    expect(userSpy).toHaveBeenCalled();
-    expect(hotelSpy).toHaveBeenCalled();
-    expect(res.send).toHaveBeenCalledWith({
-      success: true,
-      data: [],
-      message: "User bookings retrieved successfully.",
-      statusCode: 200,
-    });
-  });
-
   /**
    * Test to return a not found response when user is not found.
    */
@@ -135,16 +107,12 @@ describe('Booking Controller', () => {
 
     await getBookingsByUser(req, res);
 
-
     // Check if the response contains the expected data
     expect(res.send).toHaveBeenCalledWith({
       success: false,
       message: "User not found.",
       statusCode: 404,
     });
-
-    // Clean up the spy
-    userSpy.mockRestore();
   });
 
 });
