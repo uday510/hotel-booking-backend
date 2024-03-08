@@ -26,6 +26,7 @@ exports.create = async (req, res) => {
     hotelId: req.body.hotelId,
     name: req.body.name,
     location: req.body.location,
+    price: req.body.price,
   };
 
   try {
