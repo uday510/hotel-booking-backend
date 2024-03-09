@@ -16,6 +16,7 @@ module.exports = (app) => {
    * @param {Function} controller - Controller function to handle the route.
    */
   app.post("/v1/hotels", [authUser.verifyToken, hotelMiddleware.validateHotelCreateRequest], hotelController.create);
+  app.post("/v1/hotels/view", [authUser.verifyToken], hotelController.getAvailableHotels);
 };
 
 

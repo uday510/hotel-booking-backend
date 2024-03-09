@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const corsOptions = {
   origin: 'http://localhost:3000',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type'],
+  allowedHeaders: ['Content-Type', 'x-access-token'],
   optionsSuccessStatus: 200, 
 };
 

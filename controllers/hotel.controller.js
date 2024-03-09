@@ -1,6 +1,6 @@
 const Hotel = require('../models/hotel.model.js');
 const User = require('../models/user.model.js');
-
+const Booking = require('../models/booking.model.js');
 /**
  * Controller function to create a new hotel.
  * 
@@ -66,6 +66,59 @@ exports.create = async (req, res) => {
     res.status(500).send({
       success: false,
       message: err.message || "Some error occurred while creating the Hotel.",
+      statusCode: 500,
+    });
+  }
+};
+
+/**
+ * Retrieves the list of available hotels for booking on a specific date.
+ *
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
+exports.getAvailableHotels = async (req, res) => {
+  try {
+    // Check if the date is provided in the request body
+    if (!req.body.date) {
+      return res.status(400).send({
+        success: false,
+        message: "Date is required.",
+        statusCode: 400,
+      });
+    }
+
+    // Parse the date and check if it's in the future
+    const bookingDate = new Date(req.body.date);
+
+    if (isNaN(bookingDate) || bookingDate <= new Date()) {
+      return res.status(400).send({
+        success: false,
+        message: "Invalid booking date. Please provide a future date.",
+        statusCode: 400,
+      });
+    }
+
+    // Find all bookings for the given date
+    const bookings = await Booking.find({ date: bookingDate });
+
+    // Extract hotelIds from the bookings
+    const hotelIds = bookings.map((booking) => booking.hotelId);
+
+    // Find all hotels that are not booked on the given date
+    const hotels = await Hotel.find({ _id: { $nin: hotelIds } });
+
+    // Send success response with available hotels
+    res.status(200).send({
+      success: true,
+      data: hotels,
+      message: "Available hotels retrieved successfully.",
+      statusCode: 200,
+    });
+  } catch (err) {
+    res.status(500).send({
+      success: false,
+      message: err.message || "Error retrieving available hotels.",
       statusCode: 500,
     });
   }

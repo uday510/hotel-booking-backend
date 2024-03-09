@@ -27,7 +27,7 @@ exports.validatePassword = (password) => {
  * Time duration for token expiration in seconds.
  * @constant {number}
  */
-exports.TOKEN_EXPIRATION_TIME_SECONDS = 600;
+exports.TOKEN_EXPIRATION_TIME_SECONDS = 86400;
 
 /**
  * Enum representing different user types.

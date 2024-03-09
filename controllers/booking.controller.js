@@ -26,8 +26,7 @@ exports.bookHotel = async (req, res) => {
 
   // Check if the data is valid
   const dateParts = req.body.date.split("-");
-  const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-  const bookingDate = new Date(formattedDate);
+  const bookingDate = new Date(req.body.date);
 
   // Check if the date is valid
   if (isNaN(bookingDate) || bookingDate < Date.now()) {
@@ -139,7 +138,7 @@ exports.getBookingsByUser = async (req, res) => {
       // Check if the booking is not found
       if (!booking) {
         console.error(`Booking not found for ID: ${userBookingIds[i]}`);
-        continue; 
+        continue;
       }
 
       const hotel = await Hotel.findById(booking.hotelId);
@@ -166,4 +165,3 @@ exports.getBookingsByUser = async (req, res) => {
     });
   }
 };
-
