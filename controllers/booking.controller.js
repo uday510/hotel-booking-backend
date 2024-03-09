@@ -91,7 +91,7 @@ exports.bookHotel = async (req, res) => {
 
     data.userId = user.userId;
     data.hotelId = hotel.hotelId;
-    console.log(user.userId);
+
     // Send success response with booking information
     res.status(201).send({
       success: true,
@@ -114,12 +114,6 @@ exports.bookHotel = async (req, res) => {
   }
 }
 
-/**
- * Controller to get all bookings of a user.
- *
- * @param {*} req - Express request object.
- * @param {*} res - Express response object.
- */
 exports.getBookingsByUser = async (req, res) => {
   try {
     // Find the user by userId
@@ -135,20 +129,28 @@ exports.getBookingsByUser = async (req, res) => {
     }
 
     // Extract bookings from the user object
-    const userBookings = user.bookings;
+    const userBookingIds = user.bookings;
 
     const data = [];
 
-    for (let i = 0; i < userBookings.length; i++) {
-      const hotel = await Hotel.findById(userBookings[i].hotelId);
+    for (let i = 0; i < userBookingIds.length; i++) {
+      const booking = await Booking.findById(userBookingIds[i]);
+
+      // Check if the booking is not found
+      if (!booking) {
+        console.error(`Booking not found for ID: ${userBookingIds[i]}`);
+        continue; 
+      }
+
+      const hotel = await Hotel.findById(booking.hotelId);
       data.push({
         hotelName: hotel.name,
         price: hotel.price,
         location: hotel.location,
-        checkIn: userBookings[i].date,
+        checkIn: booking.date,
       });
     }
-    
+
     // Send success response with user bookings
     res.status(200).send({
       success: true,
