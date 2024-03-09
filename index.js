@@ -16,11 +16,19 @@ const cors = require('cors');
  */
 const app = express();
 
+const corsOptions = {
+  origin: ['http://localhost:3000', 'https://bookings.udayteja.com'],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, 
+};
+
+app.use(cors(corsOptions));
+
 // Configure Express to use JSON body parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cors());
+
 
 /**
  * Middleware that logs the time for every request.
