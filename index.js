@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const dbConfig = require('./configs/db.config.js');
 const serverConfig = require('./configs/server.config.js');
 const cors = require('cors');
+const functions = require('firebase-functions');
 
 /**
  * Express application.
@@ -19,7 +20,7 @@ const app = express();
 const corsOptions = {
   origin: ['http://localhost:3000', 'https://bookings.udayteja.com'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true, 
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
@@ -49,9 +50,9 @@ app.use(requestTime);
  * @group Health - Server health check
  * @returns {string} 200 - OK response
  */
-app.get("/", (req, res) => {
-  res.send("Server Health: OK!");
-});
+// app.get("/", (req, res) => {
+//   res.send("Server Health: OK!");
+// });
 
 // Initialize routes
 require("./routes/index.js")(app);
@@ -99,5 +100,5 @@ process.on('SIGTERM', () => {
  * @type {express.Application}
  * @exports app
  */
-module.exports = app;
+exports.app = functions.https.onRequest(app);
 
