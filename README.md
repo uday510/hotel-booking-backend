@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Hotel Booking Backend powers a dynamic application, hosted on an AWS Mumbai EC2 instance. It seamlessly integrates with a real-time NoSQL MongoDB database running on MongoDB Atlas, which is internally hosted on AWS Mumbai.
+The Hotel Booking Backend powers a dynamic application, providing a robust foundation for hotel booking functionality. It seamlessly integrates with a real-time NoSQL MongoDB database running on MongoDB Atlas.
 
 ## Quick Start
 
@@ -28,25 +28,9 @@ The Hotel Booking Backend powers a dynamic application, hosted on an AWS Mumbai 
 
 ## Architecture
 
-- **AWS Mumbai EC2 Instance:**
-  - Hosts the application, ensuring responsive user experiences.
-  - Configured to run the Hotel Booking Backend code.
-
 - **MongoDB Atlas Cluster:**
   - A real-time NoSQL MongoDB database hosted on MongoDB Atlas.
-  - Internally hosted on AWS Mumbai, ensuring low-latency connections with the AWS EC2 instance.
-
-- **Connection:**
-  - The Hotel Booking Backend running on the AWS Mumbai EC2 instance connects seamlessly to the MongoDB Atlas cluster for data storage and retrieval.
-
-## AWS Mumbai Hosting
-
-- **AWS Mumbai EC2 Instance:**
-  - The application is running on an EC2 instance in the Mumbai region of Amazon Web Services (AWS).
-  - This geographical proximity enhances overall system performance and responsiveness.
-
-- **MongoDB Atlas Cluster:**
-  - The MongoDB Atlas cluster is internally hosted on AWS Mumbai, ensuring optimal data transfer speeds between the backend and the database.
+  - Ensures seamless data storage and retrieval for the Hotel Booking Backend.
 
 ## Documentation
 
