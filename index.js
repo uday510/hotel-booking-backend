@@ -9,7 +9,6 @@ const bodyParser = require('body-parser');
 const dbConfig = require('./configs/db.config.js');
 const serverConfig = require('./configs/server.config.js');
 const cors = require('cors');
-const functions = require('firebase-functions');
 
 /**
  * Express application.
@@ -50,9 +49,9 @@ app.use(requestTime);
  * @group Health - Server health check
  * @returns {string} 200 - OK response
  */
-// app.get("/", (req, res) => {
-//   res.send("Server Health: OK!");
-// });
+app.get("/", (req, res) => {
+  res.send("Server Health: OK!");
+});
 
 // Initialize routes
 require("./routes/index.js")(app);
@@ -100,5 +99,4 @@ process.on('SIGTERM', () => {
  * @type {express.Application}
  * @exports app
  */
-exports.app = functions.https.onRequest(app);
-
+module.exports = app;
