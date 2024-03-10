@@ -3,7 +3,7 @@
  * @description Test file for validateHotel middleware using Jest.
  */
 
-const Hotel = require('../models/hotel.model');
+const Hotel = require('../../models/hotel.model');
 const validateHotel = require('./validateHotel');
 
 describe('validateHotel middleware', () => {
