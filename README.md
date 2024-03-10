@@ -25,6 +25,7 @@ The Hotel Booking Backend powers a dynamic application, providing a robust found
     ```bash
     npm start
     ```
+![System Architecture](https://github.com/uday510/hotel-booking-backend/blob/master/path_to_your_image_folder/SystemArchitecture.png)
 
 ## Architecture
 
