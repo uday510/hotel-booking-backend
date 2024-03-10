@@ -36,6 +36,14 @@ The Hotel Booking Backend powers a dynamic application, providing a robust found
 
 Explore the API endpoints and integration details in the [Postman Collection](https://documenter.getpostman.com/view/18252587/2sA2xh3DRZ).
 
+## Tests
+
+To run the tests, use the following command:
+
+```bash
+npm run test
+```
+
 ## Contact
 
 For questions or suggestions, reach out to:
